@@ -29,6 +29,8 @@ const props = {
 let count = 0;
 let navActive = '#ECECEC';
 let navFaint = 'rgba(236, 236, 236, .6)';
+let slotMain = 'main';
+let slotMenu = 'menu';
 
 
 // Mouse movement
@@ -60,7 +62,8 @@ navRight.click(function() {
     // Change image
     changeImage(0, 1.3);
 
-    // Change Span
+    // Add animation Main Span
+    addAnimation(count, 'before', slotMain);
 
     // Increment
     count++
@@ -68,6 +71,9 @@ navRight.click(function() {
     // After count
     // Change image
     changeImage(1, 1);
+
+    // Add animation Main Span
+    addAnimation(count, 'after', slotMain);
 
     // Change icon colour
     iconColourChange(count);
@@ -132,6 +138,40 @@ function iconColourChange(numb) {
 }
 
 
+// Add Aniamtion Function
+function addAnimation(cur, time, dir) {
+  const spanList = slots[cur][dir];
+  const duration = dir === slotMain ? 0.9 : 1.6;
+  let eachSec, pace;
+
+  spanList.forEach(list => {
+    let listArr = Array.from(list);
+    eachSec = 0.06;
+
+    listArr.forEach((child, ind) => {
+      if (time === 'before') {
+        pace = duration - (eachSec * ind);
+      } else {
+        pace = 0 + (eachSec * ind);
+      }
+
+      // Call Animate span
+      animateSpan(child, pace, time);
+    })
+  })
+}
+
+
+// Animate span
+function animateSpan(cur, pace, time) {
+  let val = time === 'before' ? 100 : 10;
+  let del = time === 'before' ? 0 : 1.1;
+
+  // console.log(pace)
+
+  cur.style.transform = `translateY(${val}%)`;
+  cur.style.transition = `transform .3s ease ${del + pace}s`;
+}
 
 // function to Create spans and ADD to parent 
 function createSpans(dom, str) {
@@ -175,8 +215,7 @@ function mulCreate(arr, str, slot) {
 function start() {
   const allList = $('.main-head__child');
   const allMenu = $('.menu-text');
-  const slotMain = 'main';
-  const slotMenu = 'menu';
+
 
   // Note(s)
   const text1 = ['INTERIOR', 'EFFICIENT', 'AFFORDABLE', 'DESIGN', 'DESIGN', 'PRICES'];
