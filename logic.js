@@ -5,15 +5,18 @@ const navRight = $('.grid-nav__right');
 const slots = [
   {
     img: $('.main-img__1'),
-    main: $('#head1__child1 span')
+    main: [],
+    menu: []
   },
   {
     img: $('.main-img__2'),
-    main: $('#head1__child2 span')
+    main: [],
+    menu: []
   },
   {
     img: $('.main-img__3'),
-    main: $('#head1__child3 span')
+    main: [],
+    menu: []
   },
 ];
 const props = {
@@ -57,6 +60,8 @@ navRight.click(function() {
     // Change image
     changeImage(0, 1.3);
 
+    // Change Span
+
     // Increment
     count++
 
@@ -68,8 +73,7 @@ navRight.click(function() {
     iconColourChange(count);
   }
 
-  console.log(slots[count].main.text())
-
+  // console.log(slots)
 })
 
 // NAVLEFT
@@ -129,7 +133,7 @@ function iconColourChange(numb) {
 
 
 
-// Add spans to div 
+// function to Create spans and ADD to parent 
 function createSpans(dom, str) {
   for ( var i = 0; i < str.length; i++ ) {
     const span = document.createElement('span');
@@ -145,10 +149,25 @@ function createSpans(dom, str) {
   }
 }
 
-// Multiple CreateSPANS call
-function mulCreate(arr, str) {
+
+// Function to Add parent to slots
+function addToSlot(dom, slot, numb) {
+  const domId = dom.getAttribute('id');
+  const selectSpans = $(`#${domId} span`);
+  let curSlot = numb <= 2 ? numb : numb - 3;
+
+  slots[curSlot][slot].push(selectSpans);
+}
+
+
+// Funciton to create multiple spans
+function mulCreate(arr, str, slot) {
   for ( var i = 0; i < arr.length; i++ ) {
+    // Create && Add span to parent
     createSpans(arr[i], str[i]);
+
+    // Add parent to slots
+    addToSlot(arr[i], slot, i);
   }
 }
 
@@ -156,16 +175,18 @@ function mulCreate(arr, str) {
 function start() {
   const allList = $('.main-head__child');
   const allMenu = $('.menu-text');
+  const slotMain = 'main';
+  const slotMenu = 'menu';
 
   // Note(s)
   const text1 = ['INTERIOR', 'EFFICIENT', 'AFFORDABLE', 'DESIGN', 'DESIGN', 'PRICES'];
   const text2 = ['INTERIOR DESIGN', 'EFFICIENT DESIGN', 'AFFORDABLE PRICES'];
 
   // Dom change(s)
-  mulCreate(allList, text1);
-  // mulCreate(allMenu, text2);
+  mulCreate(allList, text1, slotMain);
+  mulCreate(allMenu, text2, slotMenu);
 }
 
 
 // Call Start function
-start()
+start();
