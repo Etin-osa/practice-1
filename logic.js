@@ -2,21 +2,28 @@ const circle = $('.circle');
 const blocks = $('.menu-block span');
 const navLeft = $('.grid-nav__left');
 const navRight = $('.grid-nav__right');
+const mainNote = $('.grid-main__note');
 const slots = [
   {
     img: $('.main-img__1'),
     main: [],
-    menu: []
+    menu: [],
+    line: $('.grid-line__each-count div:nth-child(1)'),
+    number: $('.grid-number__each-count div:nth-child(1)')
   },
   {
     img: $('.main-img__2'),
     main: [],
-    menu: []
+    menu: [],
+    line: $('.grid-line__each-count div:nth-child(2)'),
+    number: $('.grid-number__each-count div:nth-child(2)')
   },
   {
     img: $('.main-img__3'),
     main: [],
-    menu: []
+    menu: [],
+    line: $('.grid-line__each-count div:nth-child(3)'),
+    number: $('.grid-number__each-count div:nth-child(3)')
   },
 ];
 const props = {
@@ -31,6 +38,10 @@ let navActive = '#ECECEC';
 let navFaint = 'rgba(236, 236, 236, .6)';
 let slotMain = 'main';
 let slotMenu = 'menu';
+let slotLine = 'line';
+let slotNumber = 'number';
+let add = 'add';
+let remove = 'remove';
 
 
 // Mouse movement
@@ -60,26 +71,44 @@ navRight.click(function() {
   if (count < 2) {
     // Before count
     // Change image
-    changeImage(0, 1.3);
+    changeImage(add, count);
 
     // Add animation Main Span
-    addAnimation(count, 'before', slotMain);
+    addAnimation(count, add, slotMain);
 
+    // line Animation
+    lineAnimation(count, add, slotLine, 'right');
+
+    // Number Animation
+    lineAnimation(count, add, slotNumber, 'right');
+    
     // Increment
     count++
-
+    
     // After count
+    // Note animation
+    noteAnimation(mainNote);
+    
     // Change image
-    changeImage(1, 1);
-
+    changeImage(remove, count);
+    
     // Add animation Main Span
-    addAnimation(count, 'after', slotMain);
+    addAnimation(count, remove, slotMain);
+    
+    // line Animation
+    lineAnimation(count, remove, slotLine, 'right');
+
+    // Number Animation
+    lineAnimation(count, remove, slotNumber, 'right');
 
     // Change icon colour
     iconColourChange(count);
   }
 
-  // console.log(slots)
+  // Lazy fix to one text Animation
+  setTimeout(() => {
+    mainNote.css('animation', 'none');
+  }, 2000)
 })
 
 // NAVLEFT
@@ -88,19 +117,44 @@ navLeft.click(function() {
   if (count > 0) {
     // Before count
     // Change image
-    changeImage(0, 1.3);
+    changeImage(add, count);
 
+    // addAnimation
+    addAnimation(count, add, slotMain);
+
+    // line Animation
+    lineAnimation(count, add, slotLine, 'left');
+
+    // Number Animation
+    lineAnimation(count, add, slotNumber, 'left');
+    
     // Decrement
     count--
-
+    
     // Aafter count
+    // NoteAnimation
+    noteAnimation(mainNote);
+    
     // Change image
-    changeImage(1, 1);
+    changeImage(remove, count)
+    
+    // addAnimation
+    addAnimation(count, remove, slotMain);
+
+    // line Animation
+    lineAnimation(count, remove, slotLine, 'left');
+
+    // Number Animation
+    lineAnimation(count, remove, slotNumber, 'left');
     
     // Change icon colour
     iconColourChange(count);
   }
 
+  // Lazy fix to one text Animation
+  setTimeout(() => {
+    mainNote.css('animation', 'none');
+  }, 2000)
 })
 
 
@@ -110,13 +164,22 @@ navLeft.click(function() {
 
 
 // Change Image Function
-function changeImage(opac, scale) {
-  // Before count
-  slots[count].img.css({
-    'opacity': `${opac}`,
-    'transform': `scale(${scale})`
-  });
+function changeImage(str, ind) {
+  if (str === add) {
+    slots[ind].img.css({
+      'transform': 'scale(1.3)',
+      'zIndex': '-3',
+      'transition': 'transform 1.6s ease-in .4s, z-index .2s ease-in 1.4s'
+    });
+  } else {
+    slots[ind].img.css({
+      'transform': 'scale(1)',
+      'zIndex': '-1',
+      'transition': 'z-index .2s ease-in 1.4s'
+    });
+  }
 }
+
 
 // Change icon colour
 function iconColourChange(numb) {
@@ -139,17 +202,16 @@ function iconColourChange(numb) {
 
 
 // Add Aniamtion Function
-function addAnimation(cur, time, dir) {
-  const spanList = slots[cur][dir];
-  const duration = dir === slotMain ? 0.9 : 1.6;
-  let eachSec, pace;
+function addAnimation(cur, time, props) {
+  const spanList = slots[cur][props];
+  const duration = props === slotMain ? 0.7 : 1.6;
+  let eachSec = 0.03, pace;
 
   spanList.forEach(list => {
     let listArr = Array.from(list);
-    eachSec = 0.06;
 
     listArr.forEach((child, ind) => {
-      if (time === 'before') {
+      if (time === add) {
         pace = duration - (eachSec * ind);
       } else {
         pace = 0 + (eachSec * ind);
@@ -164,14 +226,35 @@ function addAnimation(cur, time, dir) {
 
 // Animate span
 function animateSpan(cur, pace, time) {
-  let val = time === 'before' ? 100 : 10;
-  let del = time === 'before' ? 0 : 1.1;
-
-  // console.log(pace)
+  let val = time === add ? 100 : 10;
+  let del = time === add ? 0 : 1.3;
 
   cur.style.transform = `translateY(${val}%)`;
   cur.style.transition = `transform .3s ease ${del + pace}s`;
 }
+
+// Note Animation
+function noteAnimation(dom) {
+  dom.css({
+    'animation': 'textAnimation 1.2s ease-out forwards .4s'
+  })
+}
+
+
+// line & number animation
+function lineAnimation(cur, time, props, dir) {
+  let del = time === add ? .7 : 1.4;
+  let val = time === add ? 
+    dir === 'right' ? -100 : 100 : 0;
+  let dom = slots[cur][props];
+
+  // Add animation
+  dom.css({
+    'top': `${val}%`,
+    'transition': `top .4s ease-out ${del}s`
+  })
+}
+
 
 // function to Create spans and ADD to parent 
 function createSpans(dom, str) {

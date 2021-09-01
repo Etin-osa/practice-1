@@ -18,28 +18,39 @@ body {
   height: 100vh;
   width: 100vw;
   z-index: -1;
-  -webkit-transition: opacity .2s ease-in .7s, -webkit-transform 1.4s ease-out;
-  transition: opacity .2s ease-in .7s, -webkit-transform 1.4s ease-out;
-  transition: transform 1.4s ease-out, opacity .2s ease-in .7s;
-  transition: transform 1.4s ease-out, opacity .2s ease-in .7s, -webkit-transform 1.4s ease-out;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  -webkit-transition: z-index .2s ease-in 1.2s;
+  transition: z-index .2s ease-in 1.2s;
+}
+
+#main-img div:not(:nth-child(1)) {
+  z-index: -3;
+}
+
+#main-img div.open {
+  -webkit-transform: scale(1.3);
+          transform: scale(1.3);
+  z-index: -3;
+  -webkit-transition: z-index .2s ease-in 1.4s, -webkit-transform 1.6s ease-in .4s;
+  transition: z-index .2s ease-in 1.4s, -webkit-transform 1.6s ease-in .4s;
+  transition: transform 1.6s ease-in .4s, z-index .2s ease-in 1.4s;
+  transition: transform 1.6s ease-in .4s, z-index .2s ease-in 1.4s, -webkit-transform 1.6s ease-in .4s;
 }
 
 #main-img .main-img__1 {
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.35)), to(rgba(0, 0, 0, 0.35))), url("https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/9f344d124147687.60fe6ca891bd1.jpg") center/cover no-repeat;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url("https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/9f344d124147687.60fe6ca891bd1.jpg") center/cover no-repeat;
-  opacity: 1;
 }
 
 #main-img .main-img__2 {
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.35)), to(rgba(0, 0, 0, 0.35))), url("https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/eb8e65124147687.60fe6ca6d13af.jpg") center/cover no-repeat;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url("https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/eb8e65124147687.60fe6ca6d13af.jpg") center/cover no-repeat;
-  opacity: 0;
 }
 
 #main-img .main-img__3 {
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.35)), to(rgba(0, 0, 0, 0.35))), url("https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/3c73f0124147687.60fe903e364ad.jpg") center/cover no-repeat;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url("https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/3c73f0124147687.60fe903e364ad.jpg") center/cover no-repeat;
-  opacity: 0;
 }
 
 .header {
@@ -455,7 +466,7 @@ body {
   -ms-flex-item-align: center;
       -ms-grid-row-align: center;
       align-self: center;
-  margin-top: 7vh;
+  margin-top: 8vh;
 }
 
 .grid-line__inner > div {
@@ -476,8 +487,23 @@ body {
   overflow: hidden;
 }
 
+.grid-line__each-count {
+  position: relative;
+  padding-right: 5px;
+}
+
+.grid-line__each-count div {
+  position: absolute;
+  top: 0%;
+}
+
+.grid-line__each-count div:not(:nth-child(1)) {
+  top: 100%;
+}
+
 .grid-line__at {
-  margin: .1rem auto;
+  margin: 0.1rem auto;
+  margin-top: 0;
   width: 1px;
   height: 70px;
   background: #ECECEC;
@@ -503,8 +529,17 @@ body {
   line-height: .8;
 }
 
+.grid-number__each-count {
+  position: relative;
+}
+
 .grid-number__each-count div {
-  padding-bottom: 1rem;
+  position: absolute;
+  top: 0%;
+}
+
+.grid-number__each-count div:not(:nth-child(1)) {
+  top: 100%;
 }
 
 .grid-nav {
@@ -668,6 +703,52 @@ body {
   .grid-number__each {
     font-size: 11vw;
     height: 9.5vw;
+  }
+}
+
+@-webkit-keyframes textAnimation {
+  0% {
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+    opacity: 1;
+  }
+  35% {
+    -webkit-transform: translateY(35%);
+            transform: translateY(35%);
+    opacity: 0;
+  }
+  65% {
+    -webkit-transform: translateY(35%);
+            transform: translateY(35%);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes textAnimation {
+  0% {
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+    opacity: 1;
+  }
+  35% {
+    -webkit-transform: translateY(35%);
+            transform: translateY(35%);
+    opacity: 0;
+  }
+  65% {
+    -webkit-transform: translateY(35%);
+            transform: translateY(35%);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+    opacity: 1;
   }
 }
 /*# sourceMappingURL=main.css.map */

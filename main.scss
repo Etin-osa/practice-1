@@ -81,26 +81,34 @@ body {
   div {
     @include absolute;
     z-index: -1;
-    transition: transform 1.4s ease-out,
-                opacity .2s ease-in .7s;
+    transform: scale(1);
+    transition: z-index .2s ease-in 1.2s;
 
-    // Animation
+
+    &:not(:nth-child(1)) {
+      z-index: -3;
+    }
+
+    // Open
+    &.open {
+      transform: scale(1.3);
+      z-index: -3;
+      transition: transform 1.6s ease-in .4s,
+                  z-index .2s ease-in 1.4s;
+    }
   }
 
   .main-img {
     &__1 {
       background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/9f344d124147687.60fe6ca891bd1.jpg') center/cover no-repeat;
-      opacity: 1;
     }
 
     &__2 {
       background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/eb8e65124147687.60fe6ca6d13af.jpg') center/cover no-repeat;
-      opacity: 0;
     }
 
     &__3 {
       background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/3c73f0124147687.60fe903e364ad.jpg') center/cover no-repeat;
-      opacity: 0;
     }
   }
 }
@@ -473,7 +481,7 @@ body {
     grid-area: line1;
     font-size: 12px;
     align-self: center;        
-    margin-top: 7vh;
+    margin-top: 8vh;
 
     // Inner 
     &__inner {
@@ -486,10 +494,26 @@ body {
       @include d-flex(center);
       height: 17px;
       overflow: hidden;
+
+      &-count {
+        position: relative;
+        padding-right: 5px;
+
+        div {
+          position: absolute;
+          top: 0%;
+
+          &:not(:nth-child(1)) {
+            top: 100%;
+          }
+        }
+      } 
     }
 
     &__at {
-      margin: .1rem auto;
+      margin: .1rem auto {
+        top: 0;
+      };
       width: 1px;
       height: 70px;
       background: $main-white;
@@ -509,9 +533,18 @@ body {
       overflow: hidden;
       line-height: .8;
 
-      &-count div {
-        padding-bottom: 1rem;
-      }
+      &-count {
+        position: relative;
+
+        div {
+          position: absolute;
+          top: 0%;
+
+          &:not(:nth-child(1)) {
+            top: 100%;
+          }
+        }
+      } 
     }
   }
   
@@ -734,5 +767,31 @@ body {
       font-size: 11vw;
       height: 9.5vw;
     }
+  }
+}
+
+
+
+
+// Lazy paragraph keyframes
+@keyframes textAnimation {
+  0% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  
+  35% {
+    transform: translateY(35%);
+    opacity: 0
+  }
+  
+  65% {
+    transform: translateY(35%);
+    opacity: 0
+  }
+
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
   }
 }
