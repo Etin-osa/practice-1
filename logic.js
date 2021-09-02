@@ -1,6 +1,9 @@
 const circle = $('.circle');
-const blocks = $('.menu-block span');
+const listIcon = $('.header-list__icon');
 const navLeft = $('.grid-nav__left');
+const menuText = $('.menu-text');
+const viewLink = $('.grid-view__inn');
+const menuIcon = $('.header-menu__icon');
 const navRight = $('.grid-nav__right');
 const mainNote = $('.grid-main__note');
 const hamburger = $('#hamburger');
@@ -30,10 +33,7 @@ const slots = [
     number: $('.grid-number__each-count div:nth-child(3)')
   },
 ];
-const props = {
-  'opacity': 0,
-  'transform': 'scale(1.3)'
-}
+const mouseResponse = [navLeft, navRight, cancel, listIcon, menuText, viewLink, menuIcon];
 
 
 // Numbers and strings
@@ -49,24 +49,19 @@ let remove = 'remove';
 
 
 // Mouse movement
-// $(document).mousemove(function(e) {
-//   let x = e.pageX;
-//   let y = e.pageY;
+$(document).mousemove(function(e) {
+  let x = e.pageX;
+  let y = e.pageY;
 
-//   circle.css({
-//     top: `${y - 35}px`,
-//     left: `${x - 35}px`
-//   });
-// })
+  circle.css({
+    top: `${y - 35}px`,
+    left: `${x - 35}px`
+  });
+});
 
 
-// Mouse over
-// blocks.mouseover(function() {
-//   circle.css({
-//     background: '#ececece8',
-//     border: '1px solid transparent'
-//   })
-// })
+// Mouse effect
+mouseResponse.forEach((res) => mouseEffect(res))
 
 
 // NAVRIGHT
@@ -107,13 +102,17 @@ navRight.click(function() {
 
     // Change icon colour
     iconColourChange(count);
+
+    // LineToFill
+    lineToFill(count);
   }
 
   // Lazy fix to one text Animation
   setTimeout(() => {
     mainNote.css('animation', 'none');
   }, 2000)
-})
+});
+
 
 // NAVLEFT
 navLeft.click(function() {
@@ -153,6 +152,9 @@ navLeft.click(function() {
     
     // Change icon colour
     iconColourChange(count);
+
+    // LineToFill
+    lineToFill(count);
   }
 
   // Lazy fix to one text Animation
@@ -187,6 +189,54 @@ cancel.click(() => {
 });
 
 
+// Menu Text
+Array.from(menuText).forEach((text, ind) => text.addEventListener('click', () => {
+  let dir = count > ind ? 'left' : 'right';
+
+  // HeaderMenu remove class
+  headerMenu.removeClass('open');
+
+  // Change Image
+  changeImage(add, count);
+
+  // addAnimation
+  addAnimation(count, add, slotMain);
+
+  // line Animation
+  lineAnimation(count, add, slotLine, dir);
+
+  // NumberAnimation
+  lineAnimation(count, add, slotNumber, dir);
+
+  // Increment
+  count = ind;
+
+  // NoteAnimation
+  noteAnimation(mainNote);
+
+  // change image
+  changeImage(remove, count);
+
+  // Add main span animation
+  addAnimation(count, remove, slotMain);
+
+  // line Animation
+  lineAnimation(count, remove, slotLine, dir);
+
+  // line Animation
+  lineAnimation(count, remove, slotNumber, dir);
+
+  // line Animation
+  iconColourChange(count);
+
+  // LineToFill
+  lineToFill(count);
+
+  // Lazy fix to one text Animation
+  setTimeout(() => {
+    mainNote.css('animation', 'none');
+  }, 2000)
+}))
 
 
 
@@ -268,6 +318,25 @@ function noteAnimation(dom) {
   })
 }
 
+function lineToFill(curIndex) {
+  const textArr = Array.from(menuText);
+
+  textArr.forEach((text, ind) => {
+    let children = Array.from(text.childNodes);
+
+    children.forEach(child => {
+      if (ind === curIndex) {
+        child.style.webkitTextFillColor = '#ECECEC';
+        child.style.webkitTextStrokeColor = 'transparent';
+      } else {
+        child.style.webkitTextFillColor = 'transparent';
+        child.style.webkitTextStrokeColor = '#ECECEC';
+        child.style.webkitTextStrokeWidth = '1px';
+      }
+    })
+  })
+} 
+
 
 // line & number animation
 function lineAnimation(cur, time, props, dir) {
@@ -281,6 +350,19 @@ function lineAnimation(cur, time, props, dir) {
     'top': `${val}%`,
     'transition': `top .4s ease-out ${del}s`
   })
+}
+
+// MouseEffect
+function mouseEffect(dom) {
+  dom.mousemove(() => circle.css({
+    'background': '#ececec27',
+    'border': '2px solid #ECECEC'
+  }));
+
+  dom.mouseleave(() => circle.css({
+    'background': 'rgbA(236, 236, 236, .6)',
+    'border': 'none'
+  }))
 }
 
 

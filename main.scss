@@ -347,11 +347,9 @@ body {
   top: 0; left: 0;
   height: 70px;
   width: 70px;
-  display: none;
   border-radius: 100vh;
-  background: $main-white;
+  background: $faint-white;
   pointer-events: none;
-  border: 1px solid $main-white;
   z-index: 5;
   transition: top .6s ease-out,
               left .6s ease-out,

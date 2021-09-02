@@ -323,11 +323,9 @@ body {
   left: 0;
   height: 70px;
   width: 70px;
-  display: none;
   border-radius: 100vh;
-  background: #ECECEC;
+  background: rgba(236, 236, 236, 0.6);
   pointer-events: none;
-  border: 1px solid #ECECEC;
   z-index: 5;
   -webkit-transition: top .6s ease-out, left .6s ease-out, background .7s ease-out, border .6s ease-out;
   transition: top .6s ease-out, left .6s ease-out, background .7s ease-out, border .6s ease-out;
