@@ -3,6 +3,10 @@ const blocks = $('.menu-block span');
 const navLeft = $('.grid-nav__left');
 const navRight = $('.grid-nav__right');
 const mainNote = $('.grid-main__note');
+const hamburger = $('#hamburger');
+const headerMenu = $('.header-menu');
+const cancel = $('.header-menu__cancel');
+const sups = $('.menu-block__text sup');
 const slots = [
   {
     img: $('.main-img__1'),
@@ -158,6 +162,29 @@ navLeft.click(function() {
 })
 
 
+// Hamburger
+hamburger.click(() => {
+  // Header Menu
+  headerMenu.addClass('open')
+
+  // Menu List
+  slots.forEach((slot, ind) => addAnimation(ind, remove, slotMenu));
+
+  // Menu list hightlight
+  sups.css('opacity', '1')
+});
+
+// Header cancel
+cancel.click(() => {
+  // headerMenu
+  headerMenu.removeClass('open');
+
+  // MenuList
+  slots.forEach((slot, ind) => addAnimation(ind, add, slotMenu));
+
+  // Menu list hightlight
+  sups.css('opacity', '0')
+});
 
 
 
@@ -204,8 +231,9 @@ function iconColourChange(numb) {
 // Add Aniamtion Function
 function addAnimation(cur, time, props) {
   const spanList = slots[cur][props];
-  const duration = props === slotMain ? 0.7 : 1.6;
-  let eachSec = 0.03, pace;
+  const duration = 0.7
+  let eachSec = props === slotMain ? 0.03 : 0.01;
+  let pace;
 
   spanList.forEach(list => {
     let listArr = Array.from(list);
@@ -218,16 +246,16 @@ function addAnimation(cur, time, props) {
       }
 
       // Call Animate span
-      animateSpan(child, pace, time);
+      animateSpan(child, pace, time, props);
     })
   })
 }
 
 
 // Animate span
-function animateSpan(cur, pace, time) {
+function animateSpan(cur, pace, time, props) {
   let val = time === add ? 100 : 10;
-  let del = time === add ? 0 : 1.3;
+  let del = time === add ? 0 : props === slotMenu ? .7 : 1.3;
 
   cur.style.transform = `translateY(${val}%)`;
   cur.style.transition = `transform .3s ease ${del + pace}s`;
