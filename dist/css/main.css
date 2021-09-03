@@ -679,7 +679,7 @@ body {
     font-size: 1.7vh;
     background: #ECECEC;
     color: #1a1a1a;
-    left: 55%;
+    left: 58%;
     bottom: 19%;
   }
   .grid-line {
@@ -719,8 +719,8 @@ body {
     margin-left: -4vw;
   }
   .grid-main__head .main-head > div {
-    font-size: 9vw;
-    height: 9.4vw;
+    font-size: 9.3vw;
+    height: 9vw;
   }
   .grid-view {
     width: 95%;
