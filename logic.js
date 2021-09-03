@@ -2,11 +2,13 @@ const circle = $('.circle');
 const listIcon = $('.header-list__icon');
 const navLeft = $('.grid-nav__left');
 const menuText = $('.menu-text');
-const viewLink = $('.grid-view__inn');
+const viewLink = $('.grid-view__inn a');
+const search = $('.header-list__search-inner input')
 const menuIcon = $('.header-menu__icon');
 const navRight = $('.grid-nav__right');
 const mainNote = $('.grid-main__note');
 const hamburger = $('#hamburger');
+const menuBlocks = $('.menu-block');
 const headerMenu = $('.header-menu');
 const cancel = $('.header-menu__cancel');
 const sups = $('.menu-block__text sup');
@@ -33,7 +35,7 @@ const slots = [
     number: $('.grid-number__each-count div:nth-child(3)')
   },
 ];
-const mouseResponse = [navLeft, navRight, cancel, listIcon, menuText, viewLink, menuIcon];
+const mouseResponse = [navLeft, navRight, cancel, listIcon, menuText, viewLink, menuIcon, search];
 
 
 // Numbers and strings
@@ -54,10 +56,20 @@ $(document).mousemove(function(e) {
   let y = e.pageY;
 
   circle.css({
-    top: `${y - 35}px`,
-    left: `${x - 35}px`
+    'top': `${y - 35}px`,
+    'left': `${x - 35}px`,
+    'opacity': '1',
+    'transform': 'scale(1)'
   });
 });
+
+// Mouse movement
+$(document).mouseleave(function(e) {
+  circle.css({
+    'opacity': '0',
+    'transform': 'scale(0)'
+  })
+})
 
 
 // Mouse effect
@@ -231,7 +243,7 @@ Array.from(menuText).forEach((text, ind) => text.addEventListener('click', () =>
 
   // LineToFill
   lineToFill(count);
-
+  
   // Lazy fix to one text Animation
   setTimeout(() => {
     mainNote.css('animation', 'none');
@@ -319,23 +331,14 @@ function noteAnimation(dom) {
 }
 
 function lineToFill(curIndex) {
-  const textArr = Array.from(menuText);
+  const textArr = Array.from(menuBlocks);
 
   textArr.forEach((text, ind) => {
-    let children = Array.from(text.childNodes);
-
-    children.forEach(child => {
-      if (ind === curIndex) {
-        child.style.webkitTextFillColor = '#ECECEC';
-        child.style.webkitTextStrokeColor = 'transparent';
-      } else {
-        child.style.webkitTextFillColor = 'transparent';
-        child.style.webkitTextStrokeColor = '#ECECEC';
-        child.style.webkitTextStrokeWidth = '1px';
-      }
-    })
+    ind === curIndex ? 
+      text.classList.add('open') :
+      text.classList.remove('open');
   })
-} 
+}
 
 
 // line & number animation

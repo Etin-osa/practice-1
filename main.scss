@@ -253,7 +253,7 @@ body {
       .menu-block {
         font-weight: $bolder;
         width: 45vw;
-        border-bottom: 1px solid $main-white;
+        border-bottom: 1px solid $faint-white;
         
         &__text {
           display: flex;
@@ -261,7 +261,7 @@ body {
             top: 1.2vw;
             bottom: .6vw;
           };
-          
+
           .menu-text {
             overflow: hidden;
             cursor: pointer;
@@ -271,8 +271,16 @@ body {
               font-size: 3.3vw;
               transform: translateY(.6vw);
               transition: all .5s ease-in;
-              transform: translateY(110%);
+              transform: translateY(115%);
+              -webkit-text-fill-color: transparent;
+              -webkit-text-stroke-color: $faint-white;
+              -webkit-text-stroke-width: 1px;
             }
+            
+            &:hover span {
+              -webkit-text-fill-color: $main-white;
+              -webkit-text-stroke-color: transparent;
+            } 
           }
 
           sup {
@@ -280,30 +288,16 @@ body {
             font-family: $font-barlow;
             font-weight: $lighter;
             font-size: .8vw;
-            border: 1px solid $main-white;
+            border: 1px solid $faint-white;
             height: 1.4vw; width: 1.4vw;
             text-align: center;
             line-height: 1.2vw;
             border-radius: 100vh;
             transform: translate(-.6vw);
             opacity: 0;
+            color: $faint-white;
             transition: opacity .8s ease-in .6s;
           }  
-        }
-        
-        &:not(:nth-child(1)) {
-          .menu-text {
-            span {
-              -webkit-text-fill-color: transparent;
-              -webkit-text-stroke-color: $main-white;
-              -webkit-text-stroke-width: 1px;
-            }
-
-            &:hover span {
-              -webkit-text-fill-color: $main-white;
-              -webkit-text-stroke-color: transparent;
-            }
-          }
         }
 
         &:not(:nth-child(2)) {
@@ -317,6 +311,34 @@ body {
 
           sup {
             transform: translate(.6vw);
+          }
+        }
+
+        &:hover {
+          border-bottom: 1px solid $main-white;
+
+          sup {
+            color: $main-white;
+            border: 1px solid $main-white;
+          }
+        }
+
+        // Animation
+        &.open {
+          border-bottom: 1px solid $main-white;
+
+          .menu-block__text {
+            .menu-text {
+              span {
+                -webkit-text-fill-color: $main-white;
+                -webkit-text-stroke-color: transparent;
+              }
+            }
+
+            sup {
+              color: $main-white;
+              border: 1px solid $main-white;
+            }
           }
         }
       }
@@ -344,17 +366,20 @@ body {
 // Circle
 .circle {
   position: absolute;
-  top: 0; left: 0;
   height: 70px;
+  opacity: 0;
+  transform: scale(0);
   width: 70px;
   border-radius: 100vh;
   background: $faint-white;
   pointer-events: none;
   z-index: 5;
-  transition: top .6s ease-out,
-              left .6s ease-out,
+  transition: top .7s ease-out,
+              left .7s ease-out,
               background .7s ease-out,
-              border .6s ease-out;
+              border .6s ease-out,
+              opacity .5s ease-out,
+              transform .5s ease-out;
 }
 
 
